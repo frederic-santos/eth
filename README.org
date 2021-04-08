@@ -1,0 +1,43 @@
+#+TITLE: eth: Very basic Emacs translation helpers
+#+AUTHOR: Frédéric Santos
+
+** Goal
+~eth~ is built on top of [[https://github.com/atykhonov/google-translate][google-translate]]. It just allows for an additional editing of the candidates proposed by ~google-translate~. Those candidates are displayed either in the minibuffer or a dedicated side-buffer, and are then simply inserted in the main text after editing.
+
+~eth~ is /not/ a Computer Assisted Translation software.
+
+** How it works
+In its current state, ~eth~ just takes the next sentence in your document, highlights it, and proposes a translation in a dedicated buffer. Once you're done editing this candidate, the final translation replaces the original sentence in your original document.
+
+[[./images/example_eth_in_side_buffer.gif]]
+
+~eth~ has just one function at this stage: =eth-translate-next-sentence=. It can be bound to a convenient shortcut and called in any buffer and any mode.
+
+** Suggested settings
+Once ~eth~ is downloaded and put within your path, add the following in your init file:
+#+begin_src emacs-lisp :eval no
+;; google-translate is required:
+(use-package google-translate
+  :ensure t
+  :init
+  (require 'google-translate)
+  (require 'google-translate-smooth-ui)
+  :config
+  (defun google-translate--search-tkk ()
+    "Search TKK."
+    (list 430675 2721866130)))
+
+;; An example for the eth part:
+(require 'eth)
+(global-set-key "\C-cT" 'eth-translate-next-sentence)
+(setq eth-source-language "en")
+(setq eth-target-language "fr")
+(setq eth-edit-in-minibuffer-p nil)
+#+end_src
+
+Also, remember than the variable =sentence-end-double-space= will have a huge impact on what is detected as a proper sentence.
+
+** TODO Future improvements
+- [ ] Allow more general segments than just sentences.
+- [ ] Allow more major modes than just text-mode in side buffer.
+- [ ] Add a cancel option in side buffer (as ~C-c C-k~ in org-capture buffers)
