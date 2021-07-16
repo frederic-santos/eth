@@ -35,7 +35,7 @@ Once ~eth~ is downloaded and put within your path, add the following in your ini
 (setq eth-edit-in-minibuffer-p nil)
 #+end_src
 
-Also, remember than the variable =sentence-end-double-space= will have a huge impact on what is detected as a proper sentence.
+Also, remember that the variable =sentence-end-double-space= will have a huge impact on what is detected as a proper sentence.
 
 ** TODO Future improvements
 - [ ] Allow more general segments than just sentences.
